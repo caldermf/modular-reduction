@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from modular_reduction import KLSBasisSystem, basis_data, published_table, type_a_reduction
+from modular_reduction import (
+    KLSBasisSystem,
+    basis_data,
+    provenance,
+    published_cartan_types,
+    published_table,
+    type_a_reduction,
+)
 
 
 def test_published_table_api_carries_provenance():
@@ -39,3 +46,11 @@ def test_basis_data_records_type_a_shapes():
     s1 = next(datum for datum in dataset.data if datum.word == "s1")
     assert s1.type_a_shape == (2, 1)
     assert s1.as_dict()["mw"] == "V_{10,0}"
+
+
+def test_supported_types_and_provenance_are_public():
+    assert ("A", 3) in published_cartan_types()
+
+    report = provenance("A3")
+    assert report.published_table is not None
+    assert report.published_table.provenance.notebook_path == "minimal_master_A3.ipynb"

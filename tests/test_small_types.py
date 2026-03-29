@@ -48,6 +48,46 @@ def test_b2_mw_table_matches_the_paper():
         assert system.mw(system.context.element_from_word(word), 29) == character
 
 
+def test_g2_mw_table_matches_the_paper():
+    system = KLSBasisSystem("G2")
+    character = system.context.weyl_character
+
+    expected = {
+        "1": character(0, 0),
+        "s1": character(25, 0),
+        "s2": character(0, 27),
+        "s1*s2*s1": character(25, 1),
+        "s2*s1*s2": character(1, 27),
+        "s1*s2*s1*s2*s1": character(28, 0),
+        "s2*s1*s2*s1*s2": character(0, 28),
+        "s2*s1*s2*s1*s2*s1": character(28, 28),
+    }
+
+    for word, character in expected.items():
+        assert system.mw(system.context.element_from_word(word), 29) == character
+
+
+def test_a3_mw_table_matches_the_paper():
+    system = KLSBasisSystem("A3")
+    character = system.context.weyl_character
+
+    expected = {
+        "1": character(0, 0, 0),
+        "s1": character(28, 0, 0),
+        "s3": character(0, 0, 28),
+        "s2": character(0, 28, 0) - character(0, 26, 0),
+        "s3*s1": character(28, 0, 28) - character(27, 0, 27),
+        "s1*s2*s1": character(28, 28, 0),
+        "s2*s3*s2": character(0, 28, 28),
+        "s2*s3*s1*s2": character(0, 28, 0) + character(0, 26, 0),
+        "s1*s2*s3*s2*s1": character(28, 0, 28) + character(27, 0, 27),
+        "s1*s2*s3*s1*s2*s1": character(28, 28, 28),
+    }
+
+    for word, character in expected.items():
+        assert system.mw(system.context.element_from_word(word), 29) == character
+
+
 def test_b2_duflo_selection_is_computed_from_left_cells():
     system = KLSBasisSystem("B2")
 

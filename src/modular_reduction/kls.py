@@ -2,7 +2,13 @@ from __future__ import annotations
 
 from functools import cached_property, lru_cache
 
-from modular_reduction.api import BasisDatum, BasisDataset, PublishedMWTable, TypeAReductionResult
+from modular_reduction.api import (
+    BasisDatum,
+    BasisDataset,
+    ProvenanceBundle,
+    PublishedMWTable,
+    TypeAReductionResult,
+)
 from modular_reduction.catalog import get_published_table_source, get_type_a_reduction_source
 from modular_reduction.cells import CellData
 from modular_reduction.context import SageContext
@@ -209,6 +215,14 @@ class KLSBasisSystem:
         if self.context.cartan_type[0] != "A":
             return None
         return get_type_a_reduction_source()
+
+    def provenance(self) -> ProvenanceBundle:
+        return ProvenanceBundle(
+            cartan_type=self.context.cartan_type,
+            published_table=self.published_table_source(),
+            representative_source=self.cells.curated_representative_source,
+            type_a_reduction=self.type_a_reduction_source(),
+        )
 
     def mw_table(self, q_value: int):
         return {w: self.mw(w, q_value) for w in self.cells.near_involutions}

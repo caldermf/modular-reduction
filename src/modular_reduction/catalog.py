@@ -66,6 +66,23 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
             verified_by_tests=True,
         ),
     ),
+    ("G", 2): CuratedRepresentativeSource(
+        cartan_type=("G", 2),
+        representatives={
+            "s2*s1*s2": "s2",
+            "s2*s1*s2*s1*s2": "s2",
+            "s1*s2*s1": "s1",
+            "s1*s2*s1*s2*s1": "s1",
+        },
+        provenance=ProvenanceRecord(
+            kind="curated_left_cell_representatives",
+            summary="Representative choices used in the G2 notebook computations to reproduce the published M_w table.",
+            paper_reference="paper/main.tex, combined small-rank table around lines 1311-1324",
+            notebook_path="minimal_master_G2.ipynb",
+            note="As in B2, the notebook chooses preferred representatives within the relevant left cells rather than using the raw shifted elements.",
+            verified_by_tests=True,
+        ),
+    ),
     ("B", 3): CuratedRepresentativeSource(
         cartan_type=("B", 3),
         representatives={
@@ -190,6 +207,26 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
             verified_by_tests=True,
         ),
     ),
+    ("G", 2): PublishedTableSource(
+        cartan_type=("G", 2),
+        provenance=ProvenanceRecord(
+            kind="published_mw_table",
+            summary="Published G2 M_w table.",
+            paper_reference="paper/main.tex, combined small-rank table around lines 1311-1324",
+            notebook_path="minimal_master_G2.ipynb",
+            verified_by_tests=True,
+        ),
+    ),
+    ("A", 3): PublishedTableSource(
+        cartan_type=("A", 3),
+        provenance=ProvenanceRecord(
+            kind="published_mw_table",
+            summary="Published A3 M_w table.",
+            paper_reference="paper/main.tex, Table A3 (tab:a3positivity) around lines 1327-1345",
+            notebook_path="minimal_master_A3.ipynb",
+            verified_by_tests=True,
+        ),
+    ),
     ("B", 3): PublishedTableSource(
         cartan_type=("B", 3),
         provenance=ProvenanceRecord(
@@ -253,3 +290,11 @@ def get_published_table_source(cartan_type) -> PublishedTableSource | None:
 
 def get_type_a_reduction_source() -> ProvenanceRecord:
     return TYPE_A_REDUCTION_SOURCE
+
+
+def published_cartan_types() -> tuple[tuple[str, int], ...]:
+    return tuple(sorted(PUBLISHED_TABLE_SOURCES))
+
+
+def curated_representative_cartan_types() -> tuple[tuple[str, int], ...]:
+    return tuple(sorted(CURATED_LEFT_CELL_SOURCES))

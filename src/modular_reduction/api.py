@@ -7,6 +7,8 @@ from modular_reduction.catalog import (
     CuratedRepresentativeSource,
     PublishedTableSource,
     ProvenanceRecord,
+    curated_representative_cartan_types as _curated_representative_cartan_types,
+    published_cartan_types as _published_cartan_types,
 )
 from modular_reduction.export import MWTableRow, character_to_paper_string, mw_latex_table
 
@@ -120,6 +122,31 @@ class TypeAReductionResult:
         return json.dumps(self.as_dict(), indent=2)
 
 
+@dataclass(frozen=True)
+class ProvenanceBundle:
+    cartan_type: tuple[str, int]
+    published_table: PublishedTableSource | None = None
+    representative_source: CuratedRepresentativeSource | None = None
+    type_a_reduction: ProvenanceRecord | None = None
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "cartan_type": self.cartan_type,
+            "published_table": None
+            if self.published_table is None
+            else self.published_table.as_dict(),
+            "representative_source": None
+            if self.representative_source is None
+            else self.representative_source.as_dict(),
+            "type_a_reduction": None
+            if self.type_a_reduction is None
+            else self.type_a_reduction.as_dict(),
+        }
+
+    def json(self) -> str:
+        return json.dumps(self.as_dict(), indent=2)
+
+
 def published_table(cartan_type, q_value: int, prefix: str = "s") -> PublishedMWTable:
     from modular_reduction.kls import KLSBasisSystem
 
@@ -145,3 +172,17 @@ def type_a_reduction(cartan_type, partition, q_value: int, prefix: str = "s") ->
     from modular_reduction.kls import KLSBasisSystem
 
     return KLSBasisSystem(cartan_type, prefix=prefix).reduction_data(partition, q_value)
+
+
+def provenance(cartan_type, prefix: str = "s") -> ProvenanceBundle:
+    from modular_reduction.kls import KLSBasisSystem
+
+    return KLSBasisSystem(cartan_type, prefix=prefix).provenance()
+
+
+def published_cartan_types() -> tuple[tuple[str, int], ...]:
+    return _published_cartan_types()
+
+
+def curated_representative_cartan_types() -> tuple[tuple[str, int], ...]:
+    return _curated_representative_cartan_types()
