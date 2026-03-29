@@ -1,4 +1,4 @@
-# modular-reduction: a Python package for explicit computations related to modular of complex representations of finite reductive groups
+# Modular reduction of complex representations of finite reductive groups
 
 `modular-reduction` is a research package in Python & Sage designed as a software companion to the paper
 
