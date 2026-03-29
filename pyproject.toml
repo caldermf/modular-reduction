@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modular-reduction"
+version = "0.1.0"
+description = "Sage-native tools for Kazhdan-Lusztig-Steinberg bases and modular reduction computations."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Calder Morton-Ferguson" },
+]
+keywords = ["sage", "weyl-groups", "kazhdan-lusztig", "finite-reductive-groups", "modular-representation-theory"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[project.scripts]
+modred = "modular_reduction.__main__:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-m \"not slow\""
+testpaths = ["tests"]
+markers = [
+  "slow: expensive Sage computations that are skipped by default",
+]
