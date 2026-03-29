@@ -74,7 +74,7 @@ def _build_parser():
 
     provenance_parser = subparsers.add_parser(
         "provenance",
-        help="Show the paper/notebook provenance for one Cartan type.",
+        help="Show the paper and historical notebook provenance for one Cartan type.",
     )
     provenance_parser.add_argument("cartan_type", help="Cartan type such as A2 or D4.")
     provenance_parser.add_argument(
@@ -121,17 +121,17 @@ def _print_provenance(report) -> None:
         provenance = report.published_table.provenance
         print(f"Published table: {provenance.paper_reference}")
         if provenance.notebook_path is not None:
-            print(f"Published table notebook: {provenance.notebook_path}")
+            print(f"Historical notebook: {provenance.notebook_path}")
     if report.representative_source is not None:
         provenance = report.representative_source.provenance
         print(f"Curated representatives: {provenance.paper_reference}")
         if provenance.notebook_path is not None:
-            print(f"Representative notebook: {provenance.notebook_path}")
+            print(f"Historical representative notebook: {provenance.notebook_path}")
     if report.type_a_reduction is not None:
         provenance = report.type_a_reduction
         print(f"Type A reduction: {provenance.paper_reference}")
         if provenance.notebook_path is not None:
-            print(f"Type A reduction notebook: {provenance.notebook_path}")
+            print(f"Historical reduction notebook: {provenance.notebook_path}")
 
 
 def main(argv: list[str] | None = None) -> int:

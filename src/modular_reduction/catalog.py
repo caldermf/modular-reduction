@@ -60,9 +60,9 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
         provenance=ProvenanceRecord(
             kind="curated_left_cell_representatives",
             summary="Representative choices used in the B2 notebook computations to reproduce the published M_w table.",
-            paper_reference="paper/main.tex, Table of Types A1/A2/B2/G2 around lines 1267-1310",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_B2.ipynb",
-            note="These representatives are copied from the notebook lcell_dict and may differ from Sage's automatic Duflo involution choice.",
+            note="These representatives come from the historical research notebook lcell_dict and may differ from Sage's automatic Duflo involution choice.",
             verified_by_tests=True,
         ),
     ),
@@ -77,9 +77,9 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
         provenance=ProvenanceRecord(
             kind="curated_left_cell_representatives",
             summary="Representative choices used in the G2 notebook computations to reproduce the published M_w table.",
-            paper_reference="paper/main.tex, combined small-rank table around lines 1311-1324",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_G2.ipynb",
-            note="As in B2, the notebook chooses preferred representatives within the relevant left cells rather than using the raw shifted elements.",
+            note="As in B2, the historical notebook chooses preferred representatives within the relevant left cells rather than using the raw shifted elements.",
             verified_by_tests=True,
         ),
     ),
@@ -110,9 +110,9 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
         provenance=ProvenanceRecord(
             kind="curated_left_cell_representatives",
             summary="Representative choices used in the B3 notebook and paper table computations.",
-            paper_reference="paper/main.tex, Table B3 (tab:b3) around lines 1351-1382",
+            paper_reference="Main paper, Table B3 (tab:b3).",
             notebook_path="minimal_master_B3.ipynb",
-            note="The notebook's lcell_dict uses hand-curated representatives within left cells; reproducing the paper table requires these choices instead of Sage's default Duflo picks.",
+            note="The historical notebook's lcell_dict uses hand-curated representatives within left cells; reproducing the paper table requires these choices instead of Sage's default Duflo picks.",
             verified_by_tests=True,
         ),
     ),
@@ -143,9 +143,9 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
         provenance=ProvenanceRecord(
             kind="curated_left_cell_representatives",
             summary="Representative choices used in the C3 notebook and paper table computations.",
-            paper_reference="paper/main.tex, Table C3 (tab:c3) around lines 1383-1410",
+            paper_reference="Main paper, Table C3 (tab:c3).",
             notebook_path="minimal_master_C3.ipynb",
-            note="As in B3, these left-cell representatives come from the notebook lcell_dict rather than a purely automatic Sage rule.",
+            note="As in B3, these left-cell representatives come from the historical notebook lcell_dict rather than a purely automatic Sage rule.",
             verified_by_tests=True,
         ),
     ),
@@ -164,9 +164,9 @@ CURATED_LEFT_CELL_SOURCES: dict[tuple[str, int], CuratedRepresentativeSource] = 
         provenance=ProvenanceRecord(
             kind="curated_left_cell_representatives",
             summary="Representative choices used in the D4 notebook computations behind the published D4 table.",
-            paper_reference="paper/main.tex, Table D4 (tab:d4) around lines 1544-1605",
+            paper_reference="Main paper, Table D4 (tab:d4).",
             notebook_path="minimal_master_D4.ipynb",
-            note="Only the exceptional left cells needed manual representative overrides in the notebook; all other involutions default to themselves.",
+            note="Only the exceptional left cells needed manual representative overrides in the historical notebook; all other involutions default to themselves.",
             verified_by_tests=True,
         ),
     ),
@@ -182,7 +182,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published A1 M_w table.",
-            paper_reference="paper/main.tex, combined small-rank table around lines 1267-1282",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_A1.ipynb",
             verified_by_tests=True,
         ),
@@ -192,7 +192,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published A2 M_w table.",
-            paper_reference="paper/main.tex, combined small-rank table around lines 1283-1297",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_A2.ipynb",
             verified_by_tests=True,
         ),
@@ -202,7 +202,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published B2 M_w table.",
-            paper_reference="paper/main.tex, combined small-rank table around lines 1298-1310",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_B2.ipynb",
             verified_by_tests=True,
         ),
@@ -212,7 +212,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published G2 M_w table.",
-            paper_reference="paper/main.tex, combined small-rank table around lines 1311-1324",
+            paper_reference="Main paper, combined small-rank table for Types A1/A2/B2/G2.",
             notebook_path="minimal_master_G2.ipynb",
             verified_by_tests=True,
         ),
@@ -222,7 +222,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published A3 M_w table.",
-            paper_reference="paper/main.tex, Table A3 (tab:a3positivity) around lines 1327-1345",
+            paper_reference="Main paper, Table A3 (tab:a3positivity).",
             notebook_path="minimal_master_A3.ipynb",
             verified_by_tests=True,
         ),
@@ -232,7 +232,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published B3 M_w table.",
-            paper_reference="paper/main.tex, Table B3 (tab:b3) around lines 1351-1382",
+            paper_reference="Main paper, Table B3 (tab:b3).",
             notebook_path="minimal_master_B3.ipynb",
             verified_by_tests=True,
         ),
@@ -242,7 +242,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published C3 M_w table.",
-            paper_reference="paper/main.tex, Table C3 (tab:c3) around lines 1383-1410",
+            paper_reference="Main paper, Table C3 (tab:c3).",
             notebook_path="minimal_master_C3.ipynb",
             verified_by_tests=True,
         ),
@@ -252,9 +252,9 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published A4 M_w table.",
-            paper_reference="paper/main.tex, Table A4 (tab:a4) around lines 1411-1450",
+            paper_reference="Main paper, Table A4 (tab:a4).",
             notebook_path="dual-basis-A4.ipynb",
-            note="The A4 table is where the pseudo-dual and true dual diverge; the package's slow duality test is anchored here.",
+            note="The A4 table is where the pseudo-dual and true dual diverge; the package's slow duality test is anchored here and traces back to the historical dual-basis-A4 notebook.",
             verified_by_tests=True,
         ),
     ),
@@ -263,7 +263,7 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
         provenance=ProvenanceRecord(
             kind="published_mw_table",
             summary="Published D4 M_w table.",
-            paper_reference="paper/main.tex, Table D4 (tab:d4) around lines 1544-1605",
+            paper_reference="Main paper, Table D4 (tab:d4).",
             notebook_path="minimal_master_D4.ipynb",
             verified_by_tests=True,
         ),
@@ -273,9 +273,9 @@ PUBLISHED_TABLE_SOURCES: dict[tuple[str, int], PublishedTableSource] = {
 TYPE_A_REDUCTION_SOURCE = ProvenanceRecord(
     kind="type_a_reduction",
     summary="Type A Brauer reduction obtained by summing M_w over involutions in the two-sided cell indexed by a partition.",
-    paper_reference="paper/main.tex, Type A corollary around lines 426-442 and Type A remark around lines 1249-1256",
+    paper_reference="Main paper, Type A corollary and the later Type A remark on unipotent representations.",
     notebook_path="A3_dual_and_sups.ipynb",
-    note="The package identifies the two-sided cell of a partition through Robinson-Schensted shape and then sums the corresponding published M_w values.",
+    note="The package identifies the two-sided cell of a partition through Robinson-Schensted shape and then sums the corresponding published M_w values, following the construction first explored in the historical A3_dual_and_sups notebook.",
     verified_by_tests=True,
 )
 

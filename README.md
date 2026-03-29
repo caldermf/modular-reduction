@@ -177,6 +177,41 @@ modred provenance A4
 modred supported
 ```
 
+## Table Examples
+
+For a small type like `A2`, the plain-text table mode already reads well in a README:
+
+| `w` | `M_w` |
+| --- | --- |
+| `1` | `V_{0,0}` |
+| `s1` | `V_{10,0}` |
+| `s2` | `V_{0,10}` |
+| `s1*s2*s1` | `V_{10,10}` |
+
+The package also emits exact LaTeX table code. For example,
+
+```bash
+modred table A2 11 --format latex
+```
+
+produces
+
+```tex
+\begin{tabular}{|r|l|}
+\hline
+\multicolumn{2}{||c||}{Type $A_2$}\\
+\hline $w$ & $M_w$\\
+\hline
+$1$ & $V_{0,0}$ \\
+$s_{1}$ & $V_{10,0}$ \\
+$s_{2}$ & $V_{0,10}$ \\
+$s_{1}s_{2}s_{1}$ & $V_{10,10}$ \\
+\hline
+\end{tabular}
+```
+
+So the README can look polished on GitHub while still showing the exact LaTeX that the package exports for papers and notes.
+
 ## Public API
 
 The most important entry points are:
@@ -216,13 +251,15 @@ The package carries explicit provenance metadata for paper-facing computations.
 For supported types, provenance records include:
 
 - the relevant table or section of the paper
-- the notebook that originally produced or verified the computation
+- the historical notebook that originally produced or verified the computation
 - notes when a published table depends on curated left-cell representative choices
 
 This data is available through:
 
 - `provenance(cartan_type)` in Python
 - `modred provenance <type>` on the CLI
+
+The notebook filenames in these provenance records are retained as historical identifiers from the pre-packaging research archive; they are no longer shipped as part of the cleaned package repository.
 
 The curated representative layer is especially important in `B2`, `G2`, `B3`, `C3`, and `D4`, where reproducing the published tables requires the notebook-verified left-cell representatives rather than a purely automatic Sage choice.
 
@@ -326,22 +363,19 @@ If you use this package in research, please cite both the software and the paper
 
 ## Repository Structure
 
-The package code lives in:
+The cleaned repository is intentionally small. The main pieces are:
 
-- `src/modular_reduction/`
-
-The paper source lives in:
-
-- `paper/main.tex`
-
-The original exploratory notebooks are still present in the repository for provenance and cross-checking, but the intended public API is the installable package under `src/`.
+- `src/modular_reduction/` for the package
+- `tests/` for regression coverage
+- `examples/` for runnable usage examples
+- `README.md`, `pyproject.toml`, and `CITATION.cff` for package metadata
 
 ## Current Scope
 
 This repository is now organized as a Sage-native installable package rather than a loose notebook collection. That said, it is still honest research software:
 
 - it is optimized for mathematical transparency and reproducibility
-- it exposes provenance rather than hiding notebook-era choices
+- it exposes provenance rather than hiding historical notebook-era choices
 - it does not pretend that every experimentally interesting feature from the paper is already wrapped in a high-level API
 
 The goal is that another researcher can install the package, reproduce the published tables, inspect the basis objects used in the proof, and use the Type `A` reduction interface immediately.

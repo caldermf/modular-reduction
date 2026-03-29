@@ -19,6 +19,7 @@ def test_provenance_command_reports_paper_metadata(capsys):
 
     assert "Cartan type: A2" in output
     assert "Published table:" in output
+    assert "Historical notebook:" in output
     assert "minimal_master_A2.ipynb" in output
 
 
