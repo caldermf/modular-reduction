@@ -1,18 +1,18 @@
 # modular-reduction
 
-`modular-reduction` is a Sage-native research package for computing the Kazhdan-Lusztig-Steinberg basis on `C[T]`, its pseudo-dual and true dual bases, the virtual characters `M_w` from the paper, and modular reduction in Type `A` directly from partitions.
+`modular-reduction` is a research package in Python & Sage designed as a software companion to the paper
 
-The package is designed to be the software companion to the paper
-
-_Modular reduction of complex representations of finite reductive groups_
+[_Modular reduction of complex representations of finite reductive groups_](https://arxiv.org/abs/2502.09605)   
 by Roman Bezrukavnikov, Michael Finkelberg, David Kazhdan, and Calder Morton-Ferguson.
 
-It is not a generic symbolic algebra package. It is a focused implementation of the constructions that appear in the paper, with an emphasis on:
+It allows for the computation of the Kazhdan-Lusztig-Steinberg basis on `C[T]`, its pseudo-dual and true dual bases, the virtual characters `M_w` from the paper, and modular reduction of irreducible unipotent representations in Type `A` directly from partitions.
 
-- reproducing the published `M_w` tables
-- exposing the basis-level objects `f_w`, `f^w`, and `f_w^*`
-- making the paper’s computations reproducible from a clean Python API
-- giving researchers a Sage-backed tool they can install and build on
+The package may be used to:
+
+- reproduce and extend the published `M_w` tables in our paper
+- compute explicitly the basis elements `f_w`, `f^w`, and `f_w^*` in any Cartan type
+- reproduce the paper’s computations of modular reductions of irreps via a clean Python API
+- conduct other experiments with the KLS basis to build on the results of our paper
 
 ## What This Package Computes
 
@@ -27,9 +27,7 @@ For a Weyl group `W` of a chosen Cartan type, the package computes:
   from the paper
 - in Type `A`, the modular reduction attached to a partition by summing the relevant `M_w`
 
-The public API is intentionally paper-first: the default `mw(...)` method means the published `M_w`, not an auxiliary or notebook-era variant.
-
-## Relationship To The Paper
+## Relationship to the Paper
 
 The paper proves that Lusztig’s main conjectural formula for Brauer reduction of irreducible unipotent representations is correct in the sense that one can define explicit virtual characters `M_w` and write the Brauer reduction as
 
@@ -52,28 +50,11 @@ It also reproduces the computational phenomena emphasized in the paper:
 - the resulting failure in general of some additional properties Lusztig had hoped the `M_w` might satisfy
 - the Type `A_4` counterexample where `f^w` and `f_w^*` diverge
 
-So, in a practical sense, this repository is the computational realization of the paper’s construction and of its resolution of Lusztig’s modular-reduction formula. It is also faithful to the paper’s negative results: the package computes the actual `M_w` from the theorem, not a cosmetically adjusted substitute that would force extra symmetry or positivity properties.
-
-## What “Solving Lusztig’s Conjecture” Means Here
-
-The paper distinguishes two different ideas:
-
-- Lusztig’s main formula for Brauer reduction in terms of characters `M_w`
-- further hoped-for properties of the family `M_w`, such as symmetry and positivity in all types
-
-The main formula is implemented here.
-
-The extra hoped-for properties are not imposed by the software, because the paper shows they fail in general. In particular:
-
-- the package computes the true dual basis `f_w^*`, not just the pseudo-dual `f^w`
-- `mw(...)` uses the paper’s definition of `M_w`
-- `pseudo_mw(...)` is kept only as a diagnostic comparison tool
-
-This matters in Type `A_4`, where the package reproduces the failure of the pseudo-dual to equal the true dual.
+So, in a practical sense, this repository is the computational realization of the paper’s construction and of its resolution of Lusztig’s modular-reduction formula. The package also allows for the comparison of the actual `M_w` from the theorem with the "pseudo-dual" substitute `pseudo_mw(...)` which enjoys extra symmetry and positivity properties. This matters in Type `A_4`, where the package reproduces the failure of the pseudo-dual to equal the true dual, a discrepancy which is highlighted in the paper.
 
 ## Installation
 
-This package is intentionally Sage-native. The expected workflow is to install it inside a Sage environment:
+This package is Sage-native. The expected workflow is to install it inside a Sage environment:
 
 ```bash
 sage -pip install -e .
@@ -85,7 +66,7 @@ For development and testing:
 sage -pip install -e .[test]
 ```
 
-The code relies on Sage for Weyl groups, Kazhdan-Lusztig polynomials, Weyl character rings, and related combinatorics. There is no pure-Python backend.
+The code relies on Sage for Weyl groups, Kazhdan-Lusztig polynomials, Weyl character rings, and related combinatorics.
 
 ## Quick Start In Python
 
@@ -101,7 +82,7 @@ print(system.dual_basis_element(w))
 print(system.mw(w, 11))
 ```
 
-If you want a structured table object with provenance:
+If you want a structured table object like the ones in the paper:
 
 ```python
 from modular_reduction import published_table
@@ -139,7 +120,7 @@ for term in result.terms:
 
 ## Command-Line Interface
 
-The package ships with a small CLI under `modred`.
+The package comes with a small CLI under `modred`.
 
 Compute one `M_w`:
 
@@ -179,7 +160,7 @@ modred supported
 
 ## Table Examples
 
-For a small type like `A2`, the plain-text table mode already reads well in a README:
+For a small type like `A2`, the plain-text table mode outputs:
 
 | `w` | `M_w` |
 | --- | --- |
@@ -210,8 +191,6 @@ $s_{1}s_{2}s_{1}$ & $V_{10,10}$ \\
 \end{tabular}
 ```
 
-So the README can look polished on GitHub while still showing the exact LaTeX that the package exports for papers and notes.
-
 ## Public API
 
 The most important entry points are:
@@ -236,34 +215,14 @@ These objects all have `as_dict()` methods, and the structured export objects al
 The package follows the paper’s conventions as closely as possible.
 
 - `cartan_type="A4"` means the root system of type `A_4`.
-- `mw(...)` always means the paper’s `M_w`.
-- `pseudo_mw(...)` is an auxiliary diagnostic quantity and is not the main public notion.
+- `mw(...)` is the paper’s `M_w`.
+- `pseudo_mw(...)` is the alternative construction using the pseudo-dual instead of the honest dual basis.
 - outputs are displayed in the paper’s Weyl-module notation, such as `V_{28,0,28}`.
-- in classical types, near involutions coincide with involutions; in general the code uses the cell-theoretic definition from the paper.
 - Type `A_n` reductions use partitions of `n+1`, matching the `SL(n+1)` convention in the paper.
 
 The code accepts any integer `q`, but mathematically it is intended for the situation treated in the paper: `q` a power of a good prime.
 
-## Provenance And Reproducibility
-
-The package carries explicit provenance metadata for paper-facing computations.
-
-For supported types, provenance records include:
-
-- the relevant table or section of the paper
-- the historical notebook that originally produced or verified the computation
-- notes when a published table depends on curated left-cell representative choices
-
-This data is available through:
-
-- `provenance(cartan_type)` in Python
-- `modred provenance <type>` on the CLI
-
-The notebook filenames in these provenance records are retained as historical identifiers from the pre-packaging research archive; they are no longer shipped as part of the cleaned package repository.
-
-The curated representative layer is especially important in `B2`, `G2`, `B3`, `C3`, and `D4`, where reproducing the published tables requires the notebook-verified left-cell representatives rather than a purely automatic Sage choice.
-
-## Supported And Verified Computations
+## Supported and Verified Computations
 
 The current regression suite verifies published `M_w` tables for:
 
@@ -301,14 +260,12 @@ sage -python examples/basic_usage.py
 
 ## Relationship Between `f^w` And `f_w^*`
 
-This is one of the most important conceptual points in the package.
-
 The pseudo-dual basis `f^w` is easy to write down explicitly, but it is not in general the true dual basis for the Weyl-character pairing. In small types these can agree on the associated graded pieces, and this is exactly why Lusztig’s original low-rank examples display extra symmetry. In larger types, especially `A4`, the difference becomes genuine and changes the resulting `M_w`.
 
 If you are using this package for research, the safest rule is:
 
-- use `dual_basis_element(...)` and `mw(...)` for paper-correct computations
-- use `pseudo_dual_element(...)` and `pseudo_mw(...)` only when you intentionally want to study the discrepancy
+- use `dual_basis_element(...)` and `mw(...)` for actual computations
+- use `pseudo_dual_element(...)` and `pseudo_mw(...)` only when you intentionally want to study this discrepancy
 
 ## Type `A` Reduction
 
@@ -333,7 +290,7 @@ print(result.character)
 print([term.word for term in result.terms])
 ```
 
-At the moment, this is the package’s direct high-level API for modular reduction of unipotent representations. For general types, computing the full reduction of an arbitrary unipotent representation still requires the relevant coefficients in Lusztig’s formula.
+At the moment, this is the package’s direct high-level API for modular reduction of unipotent representations. For general types, computing the full reduction of an arbitrary unipotent representation still requires the relevant coefficients in Lusztig’s formula, which we have not yet implemented here.
 
 ## Development And Tests
 
@@ -343,7 +300,7 @@ Run the default test suite with Sage:
 sage -python -m pytest
 ```
 
-Run the slower paper-table and duality regressions:
+Run the slower paper-table and duality tests:
 
 ```bash
 sage -python -m pytest -m slow
@@ -354,28 +311,13 @@ The test suite checks:
 - low-rank tables from the paper
 - `B3`, `C3`, and selected `D4` rows
 - the `A4` dual/pseudo-dual discrepancy
-- structured API behavior
-- CLI behavior
-
-## Citation
-
-If you use this package in research, please cite both the software and the paper. A machine-readable citation file is included as [`CITATION.cff`](CITATION.cff).
+- structured API/CLI behavior
 
 ## Repository Structure
 
-The cleaned repository is intentionally small. The main pieces are:
+The main pieces are:
 
 - `src/modular_reduction/` for the package
-- `tests/` for regression coverage
+- `tests/` for test coverage
 - `examples/` for runnable usage examples
-- `README.md`, `pyproject.toml`, and `CITATION.cff` for package metadata
-
-## Current Scope
-
-This repository is now organized as a Sage-native installable package rather than a loose notebook collection. That said, it is still honest research software:
-
-- it is optimized for mathematical transparency and reproducibility
-- it exposes provenance rather than hiding historical notebook-era choices
-- it does not pretend that every experimentally interesting feature from the paper is already wrapped in a high-level API
-
-The goal is that another researcher can install the package, reproduce the published tables, inspect the basis objects used in the proof, and use the Type `A` reduction interface immediately.
+- `README.md`, `pyproject.toml` for package metadata
