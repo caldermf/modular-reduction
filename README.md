@@ -5,7 +5,7 @@
 [_Modular reduction of complex representations of finite reductive groups_](https://arxiv.org/abs/2502.09605)   
 by Roman Bezrukavnikov, Michael Finkelberg, David Kazhdan, and Calder Morton-Ferguson.
 
-It allows for the computation of the Kazhdan-Lusztig-Steinberg basis on `C[T]`, its pseudo-dual and true dual bases, the virtual characters `M_w` from the paper, and modular reduction of irreducible unipotent representations in Type `A` directly from partitions.
+It allows for the computation of the Kazhdan-Lusztig-Steinberg basis of `C[T]` over `C[T]^W`, its pseudo-dual and true dual bases, the virtual characters `M_w` from the paper, and modular reduction of irreducible unipotent representations in Type `A` directly from partitions.
 
 The package may be used to:
 
