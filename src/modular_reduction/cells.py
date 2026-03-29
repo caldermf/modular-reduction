@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from functools import cached_property
 
-from modular_reduction.representatives import CURATED_LEFT_CELL_REPRESENTATIVES
+from modular_reduction.catalog import (
+    CURATED_LEFT_CELL_REPRESENTATIVE_MAPS,
+    get_curated_representative_source,
+)
 
 
 class CellData:
@@ -54,8 +57,15 @@ class CellData:
         return self.duflo_by_left_cell[self.left_cell(w)]
 
     @cached_property
+    def curated_representative_source(self):
+        return get_curated_representative_source(self.context.cartan_type)
+
+    @cached_property
     def curated_representatives(self):
-        entries = CURATED_LEFT_CELL_REPRESENTATIVES.get(self.context.cartan_type, {})
+        source = self.curated_representative_source
+        entries = {}
+        if source is not None:
+            entries = CURATED_LEFT_CELL_REPRESENTATIVE_MAPS.get(self.context.cartan_type, {})
         return {
             self.context.element_from_word(source): self.context.element_from_word(target)
             for source, target in entries.items()

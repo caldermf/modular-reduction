@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import cached_property, lru_cache
 
+from modular_reduction.api import BasisDatum, BasisDataset, PublishedMWTable, TypeAReductionResult
+from modular_reduction.catalog import get_published_table_source, get_type_a_reduction_source
 from modular_reduction.cells import CellData
 from modular_reduction.context import SageContext
 from modular_reduction.export import mw_json, mw_latex_table, mw_rows
@@ -200,6 +202,14 @@ class KLSBasisSystem:
             self.pseudo_dual_element(representative),
         )
 
+    def published_table_source(self):
+        return get_published_table_source(self.context.cartan_type)
+
+    def type_a_reduction_source(self):
+        if self.context.cartan_type[0] != "A":
+            return None
+        return get_type_a_reduction_source()
+
     def mw_table(self, q_value: int):
         return {w: self.mw(w, q_value) for w in self.cells.near_involutions}
 
@@ -212,6 +222,50 @@ class KLSBasisSystem:
     def mw_latex_table(self, q_value: int) -> str:
         return mw_latex_table(self.context.cartan_type, self.mw_table(q_value))
 
+    def published_table(self, q_value: int) -> PublishedMWTable:
+        table = self.mw_table(q_value)
+        entries = tuple((str(element), value) for element, value in table.items())
+        return PublishedMWTable(
+            cartan_type=self.context.cartan_type,
+            q_value=q_value,
+            entries=entries,
+            rows=mw_rows(table),
+            source=self.published_table_source(),
+        )
+
+    def basis_data(
+        self,
+        *,
+        only_near_involutions: bool = False,
+        q_value: int | None = None,
+    ) -> BasisDataset:
+        elements = self.cells.near_involutions if only_near_involutions else self.context.elements
+        data = []
+        for w in elements:
+            is_near = self.is_near_involution(w)
+            datum = BasisDatum(
+                word=str(w),
+                right_descents=self.right_descent_indices(w),
+                is_near_involution=is_near,
+                duflo_involution=str(self.cells.duflo_involution(w)),
+                preferred_representative=str(self.cells.preferred_representative(w)),
+                basis=self.basis_element(w),
+                pseudo_dual=self.pseudo_dual_element(w),
+                dual=self.dual_basis_element(w),
+                type_a_shape=(
+                    self.type_a_shape(w) if self.context.cartan_type[0] == "A" else None
+                ),
+                mw_value=self.mw(w, q_value) if is_near and q_value is not None else None,
+            )
+            data.append(datum)
+        return BasisDataset(
+            cartan_type=self.context.cartan_type,
+            only_near_involutions=only_near_involutions,
+            q_value=q_value,
+            data=tuple(data),
+            representative_source=self.cells.curated_representative_source,
+        )
+
     def type_a_shape(self, w) -> tuple[int, ...]:
         if self.context.cartan_type[0] != "A":
             raise ValueError("Robinson-Schensted cell shapes are only defined here for Type A.")
@@ -223,6 +277,25 @@ class KLSBasisSystem:
     def reduction(self, partition, q_value: int):
         """Brauer reduction in Type A for the partition-indexed unipotent representation."""
         return type_a_reduction(self, partition, q_value)
+
+    def reduction_data(self, partition, q_value: int) -> TypeAReductionResult:
+        normalized = self.normalize_partition(partition)
+        terms = []
+        for w in self.type_a_cell_involutions(normalized):
+            terms.append(
+                (
+                    w,
+                    self.mw(w, q_value),
+                )
+            )
+        return TypeAReductionResult(
+            cartan_type=self.context.cartan_type,
+            partition=normalized,
+            q_value=q_value,
+            value=type_a_reduction(self, normalized, q_value),
+            terms=mw_rows(dict(terms)),
+            source=self.type_a_reduction_source(),
+        )
 
     def normalize_partition(self, partition) -> tuple[int, ...]:
         if self.context.cartan_type[0] != "A":
